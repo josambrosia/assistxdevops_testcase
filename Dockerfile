@@ -1,6 +1,6 @@
-# ================================
+
 # 1) BUILDER STAGE
-# ================================
+
 FROM python:3.12-alpine AS builder
 
 
@@ -13,9 +13,8 @@ COPY . /app
 RUN python -m venv /venv \
     && /venv/bin/pip install --no-cache-dir fastapi uvicorn
 
-# ================================
 # 2) RUNTIME STAGE
-# ================================
+
 FROM python:3.12-alpine
 
 RUN apk add --no-cache libstdc++ libgcc
