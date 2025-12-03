@@ -6,7 +6,7 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    return {"Hello World"}
+    return {"Hello World AssistX"}
 
 
 @app.get("/burn-cpu")
