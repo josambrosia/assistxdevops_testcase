@@ -36,7 +36,7 @@ jobs:
 
       - name: Update image tag in DEV manifest
         run: |
-          sed -i 's/\(image:.*:\).*/\1'${{ github.sha }}'-dev/' manifest-repo/manifest/dev/deployment.yaml
+          sed -i 's/\(image:.*:\).*/\1'${{ github.sha }}'-dev/' asssistx-manifest/dev/deployment.yaml
 
       - name: Commit & Push to Manifest Repo
         run: |
@@ -63,7 +63,7 @@ jobs:
 
       - name: Deploy DEV manifest to GKE
         run: |
-          kubectl apply -f manifest-repo/manifest/dev/
+          kubectl apply -f assistx-manifest/dev/
 
   notify-dev:
     runs-on: ubuntu-latest
@@ -74,7 +74,7 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_URL }}
         run: |
           curl -H "Content-Type: application/json" \
-            -d '{"content": "[DEV] Image build & deploy succeeded 🚀"}' \
+            -d '{"content": "[DEV] Image build & deploy succeeded"}' \
             $DISCORD_WEBHOOK_URL
 
 
@@ -109,7 +109,7 @@ jobs:
 
       - name: Update image tag in PROD manifest
         run: |
-          sed -i 's/\(image:.*:\).*/\1'${{ github.sha }}'/' manifest-repo/manifest/prod/deployment.yaml
+          sed -i 's/\(image:.*:\).*/\1'${{ github.sha }}'/' asssistx-manifest/prod/deployment.yaml
 
       - name: Commit & Push to Manifest Repo
         run: |
@@ -135,7 +135,7 @@ jobs:
 
       - name: Deploy PROD manifest to GKE
         run: |
-          kubectl apply -f manifest-repo/manifest/prod/
+          kubectl apply -f assistx-manifest/prod/
 
 
   notify-prod:
@@ -147,5 +147,5 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_URL }}
         run: |
           curl -H "Content-Type: application/json" \
-            -d '{"content": "[PROD] Image deployed to GKE successfully 🚀"}' \
+            -d '{"content": "[PROD] Image deployed to GKE successfully"}' \
             $DISCORD_WEBHOOK_URL
