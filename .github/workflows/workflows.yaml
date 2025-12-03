@@ -32,7 +32,7 @@ jobs:
         with:
           repository: josambrosia/assistx-manifest
           token: ${{ secrets.MANIFEST_REPO_TOKEN }}
-          path: manifest-repo
+          path: asssistx-manifest
 
       - name: Update image tag in DEV manifest
         run: |
@@ -40,7 +40,7 @@ jobs:
 
       - name: Commit & Push to Manifest Repo
         run: |
-          cd manifest-repo
+          cd asssistx-manifest
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add -A
@@ -105,7 +105,7 @@ jobs:
         with:
           repository: josambrosia/assistx-manifest
           token: ${{ secrets.MANIFEST_REPO_TOKEN }}
-          path: manifest-repo
+          path: asssistx-manifest
 
       - name: Update image tag in PROD manifest
         run: |
@@ -113,7 +113,7 @@ jobs:
 
       - name: Commit & Push to Manifest Repo
         run: |
-          cd manifest-repo
+          cd asssistx-manifest
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add -A
