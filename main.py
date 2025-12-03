@@ -6,8 +6,7 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    return {"Hello World AssistX"}
-
+    return {"Hello World AssistX test"}
 
 @app.get("/burn-cpu")
 def burn_cpu(seconds: int = 10):
