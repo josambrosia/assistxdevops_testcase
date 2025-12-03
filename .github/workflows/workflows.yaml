@@ -19,28 +19,28 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build -f Dockerfile -t josaphatyoga/dummyapps:${{ github.sha }}-dev .
+        run: docker build -f Dockerfile -t josaphatyoga/fastapi-burncpu:${{ github.sha }}-dev .
 
       - name: Login to Docker Hub
         run: docker login -u josaphatyoga -p ${{ secrets.DOCKER_TOKEN }}
 
       - name: Push Docker image
-        run: docker push josaphatyoga/webapp:${{ github.sha }}-dev
+        run: docker push josaphatyoga/fastapi-burncpu:${{ github.sha }}-dev
 
       - name: Checkout Manifest Repository
         uses: actions/checkout@v4
         with:
-          repository: josambrosia/Webbapp-Manifest
+          repository: josambrosia/assistx-manifest
           token: ${{ secrets.MANIFEST_REPO_TOKEN }}
-          path: manifest-repo
+          path: assistx-manifest
 
       - name: Update image tag in DEV manifest
         run: |
-          sed -i 's/\(image:.*:\).*/\1'${{ github.sha }}'-dev/' manifest-repo/manifest/dev/deployment.yaml
+          sed -i 's/\(image:.*:\).*/\1'${{ github.sha }}'-dev/' assistx-manifest/dev/deployment.yaml
 
       - name: Commit & Push to Manifest Repo
         run: |
-          cd manifest-repo
+          cd assistx-manifest
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add -A
@@ -63,7 +63,7 @@ jobs:
 
       - name: Deploy DEV manifest to GKE
         run: |
-          kubectl apply -f manifest-repo/manifest/dev/
+          kubectl apply -f assistx-manifest/dev/
 
   notify-dev:
     runs-on: ubuntu-latest
@@ -74,7 +74,7 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_URL }}
         run: |
           curl -H "Content-Type: application/json" \
-            -d '{"content": "[DEV] Image build & deploy succeeded 🚀"}' \
+            -d '{"content": "[DEV] Image build & deploy succeeded"}' \
             $DISCORD_WEBHOOK_URL
 
 
@@ -91,29 +91,29 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build Docker image
-        run: docker build -f Dockerfile -t josaphatyoga/webapp:${{ github.sha }} .
+        run: docker build -f Dockerfile -t josaphatyoga/fastapi-burncpu:${{ github.sha }} .
 
       - name: Login to Docker Hub
         run: docker login -u josaphatyoga -p ${{ secrets.DOCKER_TOKEN }}
 
       - name: Push Docker image
-        run: docker push josaphatyoga/webapp:${{ github.sha }}
+        run: docker push josaphatyoga/fastapi-burncpu:${{ github.sha }}
 
       # ===== Checkout Manifest Repo =====
       - name: Checkout Manifest Repository
         uses: actions/checkout@v4
         with:
-          repository: josambrosia/Webbapp-Manifest
+          repository: josambrosia/assistx-manifest
           token: ${{ secrets.MANIFEST_REPO_TOKEN }}
-          path: manifest-repo
+          path: assistx-manifest
 
       - name: Update image tag in PROD manifest
         run: |
-          sed -i 's/\(image:.*:\).*/\1'${{ github.sha }}'/' manifest-repo/manifest/prod/deployment.yaml
+          sed -i 's/\(image:.*:\).*/\1'${{ github.sha }}'/' assistx-manifest/prod/deployment.yaml
 
       - name: Commit & Push to Manifest Repo
         run: |
-          cd manifest-repo
+          cd assistx-manifest
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add -A
@@ -135,7 +135,7 @@ jobs:
 
       - name: Deploy PROD manifest to GKE
         run: |
-          kubectl apply -f manifest-repo/manifest/prod/
+          kubectl apply -f assistx-manifest/prod/
 
 
   notify-prod:
@@ -147,5 +147,5 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_URL }}
         run: |
           curl -H "Content-Type: application/json" \
-            -d '{"content": "[PROD] Image deployed to GKE successfully 🚀"}' \
+            -d '{"content": "[PROD] Image deployed to GKE successfully"}' \
             $DISCORD_WEBHOOK_URL
