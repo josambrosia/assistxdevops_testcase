@@ -74,7 +74,7 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_URL }}
         run: |
           curl -H "Content-Type: application/json" \
-            -d '{"content": "[DEV] Image build & deploy succeeded"}' \
+            -d '{"content": "[DEV] AssistX-test case project : Image build & deploy succeeded"}' \
             $DISCORD_WEBHOOK_URL
 
 
@@ -147,5 +147,5 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_URL }}
         run: |
           curl -H "Content-Type: application/json" \
-            -d '{"content": "[PROD] Image deployed to GKE successfully"}' \
+            -d '{"content": "[PROD] AssistX-test case project : Image deployed to GKE successfully"}' \
             $DISCORD_WEBHOOK_URL
