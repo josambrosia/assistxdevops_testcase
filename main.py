@@ -3,11 +3,15 @@ import logging
 import time
 import threading
 
-# Simple logging setup — logs go to stdout
+# ========== WIB Logging ==========
+WIB_OFFSET = 7 * 3600
+logging.Formatter.converter = lambda *args: time.gmtime(time.time() + WIB_OFFSET)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
+
 
 app = FastAPI()
 
