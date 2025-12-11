@@ -28,7 +28,7 @@ async def log_requests(request: Request, call_next):
 
 @app.get("/")
 def root():
-    return {"message": "Hello World AssistX test"}
+    return {"message": "Hello World. AssistX test. Welcome to Dev environment"}
 
 @app.get("/burn-cpu")
 def burn_cpu(seconds: int = 10):
