@@ -3,28 +3,8 @@ import logging
 import time
 import threading
 
-# ========== WIB Logging ==========
-WIB_OFFSET = 7 * 3600
-logging.Formatter.converter = lambda *args: time.gmtime(time.time() + WIB_OFFSET)
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
-
-
 app = FastAPI()
 
-# Log every request
-@app.middleware("http")
-async def log_requests(request: Request, call_next):
-    client_ip = request.headers.get("x-forwarded-for", request.client.host)
-    method = request.method
-    path = request.url.path
-
-    logging.info(f"ACCESS: {client_ip} -> {method} {path}")
-
-    return await call_next(request)
 
 @app.get("/")
 def root():
